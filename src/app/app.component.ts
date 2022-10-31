@@ -9,7 +9,6 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('drawRoot')
   private canvas?: ElementRef<HTMLCanvasElement>;
   private context?: CanvasRenderingContext2D;
-  private startedDrawing = false;
   private _points: { x: number, y: number }[] = [];
 
   ngAfterViewInit(): void {
@@ -20,13 +19,22 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
+  public drawState: 'not-drawn' | 'drawing' | 'drawn' = 'not-drawn';
+
   public get points(): { x: number, y: number }[] {
     return this._points;
   }
 
-  public clickHandler(e: MouseEvent): void {
-    if (!this.startedDrawing) {
-      this.startedDrawing = true;
+  private set points(value: { x: number, y: number }[]) {
+    this._points = value;
+  }
+
+  public handleCanvasClick(e: MouseEvent): void {
+    if (this.drawState != 'drawing') {
+      return;
+    }
+
+    if (this.points.length === 0) {
       this.startDrawing(e);
     } else {
       this.updatePath(e);
@@ -48,7 +56,7 @@ export class AppComponent implements AfterViewInit {
       this.context.stroke();
       this.context.closePath();
     }
-    this.startedDrawing = false;
+    this.drawState = "drawn";
   }
 
   public updatePath(e: MouseEvent): void {
@@ -67,5 +75,15 @@ export class AppComponent implements AfterViewInit {
   public remToPx(rem: number): number {
     const fontSize = getComputedStyle(document.documentElement).fontSize;
     return rem * parseFloat(fontSize);
+  }
+
+  public prepareToDraw(): void {
+    this.drawState = "drawing";
+  }
+
+  public resetCanvas(): void {
+    this.context?.clearRect(0, 0, document.body.clientWidth, document.body.clientHeight);
+    this.points = [];
+    this.drawState = "not-drawn";
   }
 }

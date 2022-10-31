@@ -28,3 +28,9 @@ canvas {
   background: white;
   border: 1px solid black;
 }
+
+mat-toolbar {
+  position: fixed;
+  justify-content: space-between;
+  z-index: 9999;
+}
