@@ -19,3 +19,12 @@ canvas {
   bottom: 1rem;
   right: 1rem;
 }
+
+.point {
+  position: fixed;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.5rem;
+  background: white;
+  border: 1px solid black;
+}

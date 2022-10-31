@@ -1,5 +1,12 @@
 <canvas #drawRoot></canvas>
 <div class="draw-input-receiver" (click)="clickHandler($event)" (dblclick)="stopDrawing()"></div>
+<div
+  *ngFor="let point of points"
+  class="point"
+  [style.top.px]="point.y - remToPx(0.5)"
+  [style.left.px]="point.x - remToPx(0.5)"
+  (dblclick)="stopDrawing()"
+></div>
 <div class="create-button-container">
   <button mat-fab color="primary">
     <mat-icon>create</mat-icon>

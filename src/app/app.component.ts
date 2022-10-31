@@ -10,8 +10,7 @@ export class AppComponent implements AfterViewInit {
   private canvas?: ElementRef<HTMLCanvasElement>;
   private context?: CanvasRenderingContext2D;
   private startedDrawing = false;
-  private prevPointCoords: { x: number, y: number } = { x: 0, y: 0 };
-  private firstPointCoords = this.prevPointCoords;
+  private _points: { x: number, y: number }[] = [];
 
   ngAfterViewInit(): void {
     if (this.canvas) {
@@ -19,6 +18,10 @@ export class AppComponent implements AfterViewInit {
       this.canvas.nativeElement.height = document.body.clientHeight;
       this.context = this.canvas.nativeElement.getContext('2d')!;
     }
+  }
+
+  public get points(): { x: number, y: number }[] {
+    return this._points;
   }
 
   public clickHandler(e: MouseEvent): void {
@@ -31,15 +34,17 @@ export class AppComponent implements AfterViewInit {
   }
 
   public startDrawing(e: MouseEvent): void {
-    this.prevPointCoords = { x: e.x, y: e.y };
-    this.firstPointCoords = this.prevPointCoords;
+    this.points.push({ x: e.x, y: e.y });
   }
 
   public stopDrawing(): void {
     if (this.context) {
+      const lastPointId = this.points.length - 1;
+      const lastPoint = this.points[lastPointId];
+      const firstPoint = this.points[0];
       this.context.beginPath();
-      this.context.moveTo(this.prevPointCoords.x, this.prevPointCoords.y);
-      this.context.bezierCurveTo(this.prevPointCoords.x, this.prevPointCoords.y, this.firstPointCoords.x, this.firstPointCoords.y, this.firstPointCoords.x, this.firstPointCoords.y);
+      this.context.moveTo(lastPoint.x, lastPoint.y);
+      this.context.bezierCurveTo(lastPoint.x, lastPoint.y, firstPoint.x, firstPoint.y, firstPoint.x, firstPoint.y);
       this.context.stroke();
       this.context.closePath();
     }
@@ -48,12 +53,19 @@ export class AppComponent implements AfterViewInit {
 
   public updatePath(e: MouseEvent): void {
     if (this.context) {
+      const lastPointId = this.points.length - 1;
+      const lastPoint = this.points[lastPointId];
       this.context.beginPath();
-      this.context.moveTo(this.prevPointCoords.x, this.prevPointCoords.y);
-      this.context.bezierCurveTo(this.prevPointCoords.x, this.prevPointCoords.y, e.x, e.y, e.x, e.y);
-      this.prevPointCoords = { x: e.x, y: e.y };
+      this.context.moveTo(lastPoint.x, lastPoint.y);
+      this.context.bezierCurveTo(lastPoint.x, lastPoint.y, e.x, e.y, e.x, e.y);
       this.context.stroke();
       this.context.closePath();
+      this.points.push({ x: e.x, y: e.y });
     }
+  }
+
+  public remToPx(rem: number): number {
+    const fontSize = getComputedStyle(document.documentElement).fontSize;
+    return rem * parseFloat(fontSize);
   }
 }
