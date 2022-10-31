@@ -1,0 +1,13 @@
+canvas {
+  position: fixed;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}
+
+.create-button-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
