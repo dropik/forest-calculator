@@ -1,8 +1,11 @@
-<div
+<button
+  type="button"
+  mat-flat-button
+  color="primary"
   class="point"
   (dblclick)="closeShape()"
   cdkDrag
   (cdkDragMoved)="movePoint($event)"
   [cdkDragFreeDragPosition]="position"
   [cdkDragBoundary]="canvas"
-></div>
+>{{''}}</button>

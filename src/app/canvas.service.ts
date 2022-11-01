@@ -38,7 +38,7 @@ export class CanvasService {
 
   public drawControlLine(point: Point, controlPoint: Point): void {
     if (this.context) {
-      this.context.strokeStyle = 'blue';
+      this.context.strokeStyle = 'gray';
       this.context.beginPath();
       this.context.moveTo(point.x, point.y);
       this.context.lineTo(controlPoint.x, controlPoint.y);
