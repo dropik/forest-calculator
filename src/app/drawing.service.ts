@@ -103,6 +103,18 @@ export class DrawingService {
     this.controlPoints[id].left = { x: prevLeft.x + dir.x, y: prevLeft.y + dir.y };
     this.controlPoints[id].right = { x: prevRight.x + dir.x, y: prevRight.y + dir.y };
 
+    this.redrawAll();
+  }
+
+  public moveControlPoint(id: number, side: 'left' | 'right', newPoint: Point): void {
+    const modifiedPoints = this.controlPoints[id];
+    modifiedPoints[side].x = newPoint.x;
+    modifiedPoints[side].y = newPoint.y;
+
+    this.redrawAll();
+  }
+
+  private redrawAll(): void {
     this.canvasService.reset();
 
     let p1 = this.points[0];

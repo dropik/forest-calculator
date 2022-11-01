@@ -14,6 +14,7 @@ import { NewPointsListenerComponent } from './draw-field/new-points-listener/new
 import { CanvasInitComponent } from './draw-field/canvas-init/canvas-init.component';
 import { TopAppBarComponent } from './top-app-bar/top-app-bar.component';
 import { DrawButtonComponent } from './draw-button/draw-button.component';
+import { ControlPointComponent } from './draw-field/control-point/control-point.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DrawButtonComponent } from './draw-button/draw-button.component';
     NewPointsListenerComponent,
     CanvasInitComponent,
     TopAppBarComponent,
-    DrawButtonComponent
+    DrawButtonComponent,
+    ControlPointComponent
   ],
   imports: [
     BrowserModule,

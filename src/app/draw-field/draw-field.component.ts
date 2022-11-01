@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PointsService } from '../points.service';
+import { ControlPoints, Point, PointsService } from '../points.service';
 
 @Component({
   selector: 'app-draw-field',
@@ -9,7 +9,11 @@ import { PointsService } from '../points.service';
 export class DrawFieldComponent {
   constructor(private pointsService: PointsService) { }
 
-  public get points(): { x: number, y: number }[] {
+  public get points(): Point[] {
     return this.pointsService.points;
+  }
+
+  public get controlPoints(): ControlPoints[] {
+    return this.pointsService.controlPoints;
   }
 }
