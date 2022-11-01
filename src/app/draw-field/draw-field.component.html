@@ -1,9 +1,3 @@
 <canvas #drawRoot></canvas>
 <div class="input-receiver" (click)="handleCanvasClick($event)" (dblclick)="stopDrawing()"></div>
-<div
-  *ngFor="let point of points"
-  class="point"
-  [style.top.px]="point.y - remToPx(0.5)"
-  [style.left.px]="point.x - remToPx(0.5)"
-  (dblclick)="stopDrawing()"
-></div>
+<app-point *ngFor="let point of points" [point]="point" (stopDrawing)="stopDrawing()"></app-point>

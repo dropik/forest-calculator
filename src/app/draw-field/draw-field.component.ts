@@ -65,9 +65,4 @@ export class DrawFieldComponent implements AfterViewInit {
     this.canvasService.drawPart(lastPoint, firstPoint);
     this.drawState = "drawn";
   }
-
-  public remToPx(rem: number): number {
-    const fontSize = getComputedStyle(document.documentElement).fontSize;
-    return rem * parseFloat(fontSize);
-  }
 }
