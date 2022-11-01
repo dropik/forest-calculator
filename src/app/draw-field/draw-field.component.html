@@ -1,7 +1,7 @@
 <app-canvas-init></app-canvas-init>
 <app-new-points-listener></app-new-points-listener>
-<div *ngFor="let controlPoint of controlPoints; let i = index">
-  <app-control-point [id]="i" side="left" [point]="controlPoint.left"></app-control-point>
-  <app-control-point [id]="i" side="right" [point]="controlPoint.right"></app-control-point>
+<div *ngIf="selectedPoint !== undefined">
+  <app-control-point [id]="selectedPoint" side="left" [point]="controlPoints[selectedPoint].left"></app-control-point>
+  <app-control-point [id]="selectedPoint" side="right" [point]="controlPoints[selectedPoint].right"></app-control-point>
 </div>
 <app-point *ngFor="let point of points; let i = index" [point]="point" [id]="i"></app-point>

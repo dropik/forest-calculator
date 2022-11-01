@@ -11,5 +11,6 @@ export class NewPointsListenerComponent {
 
   public onClick(e: MouseEvent): void {
     this.drawingService.addPoint(e);
+    this.drawingService.unselectPoint();
   }
 }

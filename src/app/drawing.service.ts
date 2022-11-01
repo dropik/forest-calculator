@@ -52,11 +52,8 @@ export class DrawingService {
     this.controlPoints[lastPointId].right.x += dir.x;
     this.controlPoints[lastPointId].right.y += dir.y;
     this.controlPoints.push({ left: { x: point.x - dir.x, y: point.y - dir.y }, right: { x: point.x, y: point.y } });
-    const cp1 = this.controlPoints[lastPointId].right;
-    const cp2 = this.controlPoints[lastPointId + 1].left;
-    this.canvasService.drawPart(lastPoint, point, cp1, cp2);
-    this.canvasService.drawControlLine(lastPoint, cp1);
-    this.canvasService.drawControlLine(point, cp2);
+
+    this.redrawAll();
   }
 
   private get points(): Point[] {
@@ -79,12 +76,10 @@ export class DrawingService {
     this.controlPoints[lastPointId].right.y += dir.y;
     this.controlPoints[0].left.x -= dir.x;
     this.controlPoints[0].left.y -= dir.y;
-    const cp1 = this.controlPoints[lastPointId].right;
-    const cp2 = this.controlPoints[0].left;
-    this.canvasService.drawPart(lastPoint, firstPoint, cp1, cp2);
-    this.canvasService.drawControlLine(lastPoint, cp1);
-    this.canvasService.drawControlLine(firstPoint, cp2);
+    this.pointsService.selectedPoint = undefined;
     this.state = "drawn";
+
+    this.redrawAll();
   }
 
   public reset(): void {
@@ -114,6 +109,16 @@ export class DrawingService {
     this.redrawAll();
   }
 
+  public selectPoint(id: number): void {
+    this.pointsService.selectedPoint = id;
+    this.redrawAll();
+  }
+
+  public unselectPoint(): void {
+    this.pointsService.selectedPoint = undefined;
+    this.redrawAll();
+  }
+
   private redrawAll(): void {
     this.canvasService.reset();
 
@@ -123,8 +128,12 @@ export class DrawingService {
       const cp1 = this.controlPoints[i - 1].right;
       const cp2 = this.controlPoints[i].left;
       this.canvasService.drawPart(p1, p2, cp1, cp2);
-      this.canvasService.drawControlLine(p1, cp1);
-      this.canvasService.drawControlLine(p2, cp2);
+
+      if (this.pointsService.selectedPoint === i - 1) {
+        this.canvasService.drawControlLine(p1, cp1);
+      } else if (this.pointsService.selectedPoint === i) {
+        this.canvasService.drawControlLine(p2, cp2);
+      }
       p1 = p2;
     }
 
@@ -133,8 +142,11 @@ export class DrawingService {
       const cp1 = this.controlPoints[this.controlPoints.length - 1].right;
       const cp2 = this.controlPoints[0].left;
       this.canvasService.drawPart(p1, p2, cp1, cp2);
-      this.canvasService.drawControlLine(p1, cp1);
-      this.canvasService.drawControlLine(p2, cp2);
+      if (this.pointsService.selectedPoint === this.controlPoints.length - 1) {
+        this.canvasService.drawControlLine(p1, cp1);
+      } else if (this.pointsService.selectedPoint === 0) {
+        this.canvasService.drawControlLine(p2, cp2);
+      }
     }
   }
 }

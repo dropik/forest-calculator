@@ -38,4 +38,8 @@ export class PointComponent {
   public movePoint(event: CdkDragMove): void {
     this.drawingService.movePoint(this.id, { x: event.pointerPosition.x, y: event.pointerPosition.y });
   }
+
+  public select(): void {
+    this.drawingService.selectPoint(this.id);
+  }
 }

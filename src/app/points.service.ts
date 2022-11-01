@@ -28,5 +28,8 @@ export class PointsService {
   public resetPoints(): void {
     this._points = [];
     this._controlPoints = [];
+    this.selectedPoint = undefined;
   }
+
+  public selectedPoint?: number;
 }

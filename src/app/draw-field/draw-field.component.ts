@@ -16,4 +16,8 @@ export class DrawFieldComponent {
   public get controlPoints(): ControlPoints[] {
     return this.pointsService.controlPoints;
   }
+
+  public get selectedPoint(): number | undefined {
+    return this.pointsService.selectedPoint;
+  }
 }

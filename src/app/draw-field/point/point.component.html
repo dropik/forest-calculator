@@ -3,6 +3,7 @@
   mat-flat-button
   color="primary"
   class="point"
+  (click)="select()"
   (dblclick)="closeShape()"
   cdkDrag
   (cdkDragMoved)="movePoint($event)"
