@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { DrawFieldComponent } from './draw-field/draw-field.component';
+import { Component } from '@angular/core';
+import { CanvasService } from './canvas.service';
 import { DrawingStateService } from './drawing-state.service';
 import { PointsService } from './points.service';
 
@@ -9,10 +9,7 @@ import { PointsService } from './points.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  @ViewChild(DrawFieldComponent)
-  private drawField!: DrawFieldComponent;
-
-  constructor(private pointsService: PointsService, private drawingStateService: DrawingStateService) { }
+  constructor(private pointsService: PointsService, private drawingStateService: DrawingStateService, private canvasService: CanvasService) { }
 
   public get drawState() {
     return this.drawingStateService.state;
@@ -27,7 +24,7 @@ export class AppComponent {
   }
 
   public resetCanvas(): void {
-    this.drawField.context?.clearRect(0, 0, document.body.clientWidth, document.body.clientHeight);
+    this.canvasService.reset();
     this.pointsService.resetPoints();
     this.drawState = "not-drawn";
   }

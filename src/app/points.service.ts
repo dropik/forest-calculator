@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-type Point = {
+export type Point = {
   x: number,
   y: number
 };

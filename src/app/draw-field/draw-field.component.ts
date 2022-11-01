@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { CanvasService } from '../canvas.service';
 import { DrawingStateService } from '../drawing-state.service';
-import { PointsService } from '../points.service';
+import { Point, PointsService } from '../points.service';
 
 @Component({
   selector: 'app-draw-field',
@@ -11,23 +12,21 @@ export class DrawFieldComponent implements AfterViewInit {
   @ViewChild('drawRoot')
   private canvas?: ElementRef<HTMLCanvasElement>;
 
-  public context?: CanvasRenderingContext2D;
-
-  constructor(private pointsService: PointsService, private drawingStateService: DrawingStateService) { }
+  constructor(private pointsService: PointsService, private drawingStateService: DrawingStateService, private canvasService: CanvasService) { }
 
   ngAfterViewInit(): void {
     if (this.canvas) {
       this.canvas.nativeElement.width = document.body.clientWidth;
       this.canvas.nativeElement.height = document.body.clientHeight;
-      this.context = this.canvas.nativeElement.getContext('2d')!;
+      this.canvasService.initWithCanvas(this.canvas);
     }
   }
 
-  public get drawState() {
+  private get drawState() {
     return this.drawingStateService.state;
   }
 
-  public set drawState(value) {
+  private set drawState(value) {
     this.drawingStateService.state = value;
   }
 
@@ -52,29 +51,18 @@ export class DrawFieldComponent implements AfterViewInit {
   }
 
   private updatePath(e: MouseEvent): void {
-    if (this.context) {
-      const lastPointId = this.points.length - 1;
-      const lastPoint = this.points[lastPointId];
-      this.context.beginPath();
-      this.context.moveTo(lastPoint.x, lastPoint.y);
-      this.context.bezierCurveTo(lastPoint.x, lastPoint.y, e.x, e.y, e.x, e.y);
-      this.context.stroke();
-      this.context.closePath();
-      this.points.push({ x: e.x, y: e.y });
-    }
+    const lastPointId = this.points.length - 1;
+    const lastPoint = this.points[lastPointId];
+    const newPoint: Point = { x: e.x, y: e.y };
+    this.canvasService.drawPart(lastPoint, newPoint);
+    this.points.push(newPoint);
   }
 
   public stopDrawing(): void {
-    if (this.context) {
-      const lastPointId = this.points.length - 1;
-      const lastPoint = this.points[lastPointId];
-      const firstPoint = this.points[0];
-      this.context.beginPath();
-      this.context.moveTo(lastPoint.x, lastPoint.y);
-      this.context.bezierCurveTo(lastPoint.x, lastPoint.y, firstPoint.x, firstPoint.y, firstPoint.x, firstPoint.y);
-      this.context.stroke();
-      this.context.closePath();
-    }
+    const lastPointId = this.points.length - 1;
+    const lastPoint = this.points[lastPointId];
+    const firstPoint = this.points[0];
+    this.canvasService.drawPart(lastPoint, firstPoint);
     this.drawState = "drawn";
   }
 
