@@ -1,8 +1,4 @@
 <app-top-app-bar></app-top-app-bar>
 <app-draw-field></app-draw-field>
-<div class="create-button-container">
-  <button *ngIf="isNotDrawn" mat-fab color="primary" (click)="startDrawing()">
-    <mat-icon>create</mat-icon>
-  </button>
-</div>
+<app-draw-button></app-draw-button>
 <router-outlet></router-outlet>
