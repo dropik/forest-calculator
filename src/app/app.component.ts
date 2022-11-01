@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { PointsService } from './points.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('drawRoot')
   private canvas?: ElementRef<HTMLCanvasElement>;
   private context?: CanvasRenderingContext2D;
-  private _points: { x: number, y: number }[] = [];
+
+  constructor(private pointsService: PointsService) { }
 
   ngAfterViewInit(): void {
     if (this.canvas) {
@@ -22,11 +24,7 @@ export class AppComponent implements AfterViewInit {
   public drawState: 'not-drawn' | 'drawing' | 'drawn' = 'not-drawn';
 
   public get points(): { x: number, y: number }[] {
-    return this._points;
-  }
-
-  private set points(value: { x: number, y: number }[]) {
-    this._points = value;
+    return this.pointsService.points;
   }
 
   public handleCanvasClick(e: MouseEvent): void {
@@ -83,7 +81,7 @@ export class AppComponent implements AfterViewInit {
 
   public resetCanvas(): void {
     this.context?.clearRect(0, 0, document.body.clientWidth, document.body.clientHeight);
-    this.points = [];
+    this.pointsService.resetPoints();
     this.drawState = "not-drawn";
   }
 }
