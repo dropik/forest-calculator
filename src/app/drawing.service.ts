@@ -65,4 +65,21 @@ export class DrawingService {
     this.pointsService.resetPoints();
     this.state = "not-drawn";
   }
+
+  public movePoint(id: number, newPoint: Point): void {
+    this.points[id].x = newPoint.x;
+    this.points[id].y = newPoint.y;
+    this.canvasService.reset();
+
+    let p1 = this.points[0];
+    for (let i = 1; i < this.points.length; i++) {
+      let p2 = this.points[i];
+      this.canvasService.drawPart(p1, p2);
+      p1 = p2;
+    }
+
+    if (this.state === 'drawn') {
+      this.canvasService.drawPart(this.points[this.points.length - 1], this.points[0]);
+    }
+  }
 }

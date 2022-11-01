@@ -1,6 +1,7 @@
 <div
   class="point"
-  [style.top.px]="top"
-  [style.left.px]="left"
   (dblclick)="closeShape()"
+  cdkDrag
+  (cdkDragMoved)="movePoint($event)"
+  [cdkDragFreeDragPosition]="position"
 ></div>

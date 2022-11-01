@@ -1,3 +1,4 @@
+import { CdkDragMove } from '@angular/cdk/drag-drop';
 import { Component, Input } from '@angular/core';
 import { DrawingService } from 'src/app/drawing.service';
 import { Point } from 'src/app/points.service';
@@ -11,14 +12,13 @@ export class PointComponent {
   @Input()
   point!: Point;
 
+  @Input()
+  id!: number;
+
   constructor(private drawingService: DrawingService) { }
 
-  public get top(): number {
-    return this.point.y - this.remToPx(0.5);
-  }
-
-  public get left(): number {
-    return this.point.x - this.remToPx(0.5);
+  public get position(): Point {
+    return { x: this.point.x - this.remToPx(0.5), y: this.point.y - this.remToPx(0.5) };
   }
 
   private remToPx(rem: number): number {
@@ -28,5 +28,9 @@ export class PointComponent {
 
   public closeShape(): void {
     this.drawingService.closeShape();
+  }
+
+  public movePoint(event: CdkDragMove): void {
+    this.drawingService.movePoint(this.id, { x: event.pointerPosition.x, y: event.pointerPosition.y });
   }
 }
