@@ -1,32 +1,7 @@
-canvas {
-  position: fixed;
-  display: block;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-}
-
-.draw-input-receiver {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-}
-
 .create-button-container {
   position: fixed;
   bottom: 1rem;
   right: 1rem;
-}
-
-.point {
-  position: fixed;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 0.5rem;
-  background: white;
-  border: 1px solid black;
 }
 
 mat-toolbar {

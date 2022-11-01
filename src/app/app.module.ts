@@ -7,10 +7,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DrawFieldComponent } from './draw-field/draw-field.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DrawFieldComponent
   ],
   imports: [
     BrowserModule,
