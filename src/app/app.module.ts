@@ -9,12 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DrawFieldComponent } from './draw-field/draw-field.component';
 import { PointComponent } from './draw-field/point/point.component';
+import { NewPointsListenerComponent } from './draw-field/new-points-listener/new-points-listener.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DrawFieldComponent,
-    PointComponent
+    PointComponent,
+    NewPointsListenerComponent
   ],
   imports: [
     BrowserModule,
