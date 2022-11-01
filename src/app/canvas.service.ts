@@ -6,9 +6,19 @@ import { Point } from './points.service';
 })
 export class CanvasService {
   private context?: CanvasRenderingContext2D;
+  private _canvas?: ElementRef<HTMLCanvasElement>;
 
   public initWithCanvas(canvas: ElementRef<HTMLCanvasElement>): void {
+    this.canvas = canvas;
     this.context = canvas.nativeElement.getContext('2d')!;
+  }
+
+  public get canvas(): ElementRef<HTMLCanvasElement> | undefined {
+    return this._canvas;
+  }
+
+  private set canvas(value: ElementRef<HTMLCanvasElement> | undefined) {
+    this._canvas = value;
   }
 
   public reset(): void {
