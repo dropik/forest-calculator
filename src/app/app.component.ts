@@ -16,8 +16,4 @@ export class AppComponent {
   public startDrawing(): void {
     this.drawingService.startDrawing();
   }
-
-  public reset(): void {
-    this.drawingService.reset();
-  }
 }
