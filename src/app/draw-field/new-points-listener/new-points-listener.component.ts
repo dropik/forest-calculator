@@ -46,12 +46,4 @@ export class NewPointsListenerComponent {
     this.canvasService.drawPart(lastPoint, newPoint);
     this.points.push(newPoint);
   }
-
-  public stopDrawing(): void {
-    const lastPointId = this.points.length - 1;
-    const lastPoint = this.points[lastPointId];
-    const firstPoint = this.points[0];
-    this.canvasService.drawPart(lastPoint, firstPoint);
-    this.drawState = "drawn";
-  }
 }
