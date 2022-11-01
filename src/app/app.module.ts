@@ -10,13 +10,15 @@ import { AppComponent } from './app.component';
 import { DrawFieldComponent } from './draw-field/draw-field.component';
 import { PointComponent } from './draw-field/point/point.component';
 import { NewPointsListenerComponent } from './draw-field/new-points-listener/new-points-listener.component';
+import { CanvasInitComponent } from './draw-field/canvas-init/canvas-init.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DrawFieldComponent,
     PointComponent,
-    NewPointsListenerComponent
+    NewPointsListenerComponent,
+    CanvasInitComponent
   ],
   imports: [
     BrowserModule,
