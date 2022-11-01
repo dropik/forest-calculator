@@ -1,12 +1,12 @@
 <mat-toolbar color="primary">
   <span>Forest Calculator</span>
-  <button mat-icon-button (click)="resetCanvas()">
+  <button mat-icon-button (click)="reset()">
     <mat-icon>restart_alt</mat-icon>
   </button>
 </mat-toolbar>
 <app-draw-field></app-draw-field>
 <div class="create-button-container">
-  <button *ngIf="drawState === 'not-drawn'" mat-fab color="primary" (click)="prepareToDraw()">
+  <button *ngIf="isNotDrawn" mat-fab color="primary" (click)="startDrawing()">
     <mat-icon>create</mat-icon>
   </button>
 </div>
