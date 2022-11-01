@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanvasService } from './canvas.service';
-import { Point, PointsService } from './points.service';
+import { ControlPoints, Point, PointsService } from './points.service';
 
 export type DrawingState = 'not-drawn' | 'drawing' | 'drawn';
 
@@ -38,25 +38,44 @@ export class DrawingService {
 
   private makeFirstPoint(point: Point): void {
     this.points.push({ x: point.x, y: point.y });
+    this.controlPoints.push({ right: { x: point.x, y: point.y }, left: { x: point.x, y: point.y } });
   }
 
   private addNextPoint(point: Point): void {
     const lastPointId = this.points.length - 1;
     const lastPoint = this.points[lastPointId];
-    const newPoint: Point = { x: point.x, y: point.y };
-    this.canvasService.drawPart(lastPoint, newPoint);
-    this.points.push(newPoint);
+    this.points.push({ x: point.x, y: point.y });
+    const dir: Point = { x: point.x - lastPoint.x, y: point.y - lastPoint.y };
+    const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y) / 100;
+    dir.x /= length;
+    dir.y /= length;
+    this.controlPoints[lastPointId].right.x += dir.x;
+    this.controlPoints[lastPointId].right.y += dir.y;
+    this.controlPoints.push({ left: { x: point.x - dir.x, y: point.y - dir.y }, right: { x: point.x, y: point.y } });
+    this.canvasService.drawPart(lastPoint, point, this.controlPoints[lastPointId].right, this.controlPoints[lastPointId + 1].left);
   }
 
-  private get points(): { x: number, y: number }[] {
+  private get points(): Point[] {
     return this.pointsService.points;
+  }
+
+  private get controlPoints(): ControlPoints[] {
+    return this.pointsService.controlPoints;
   }
 
   public closeShape(): void {
     const lastPointId = this.points.length - 1;
     const lastPoint = this.points[lastPointId];
     const firstPoint = this.points[0];
-    this.canvasService.drawPart(lastPoint, firstPoint);
+    const dir: Point = { x: firstPoint.x - lastPoint.x, y: firstPoint.y - lastPoint.y };
+    const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y) / 100;
+    dir.x /= length;
+    dir.y /= length;
+    this.controlPoints[lastPointId].right.x += dir.x;
+    this.controlPoints[lastPointId].right.y += dir.y;
+    this.controlPoints[0].left.x -= dir.x;
+    this.controlPoints[0].left.y -= dir.y;
+    this.canvasService.drawPart(lastPoint, firstPoint, this.controlPoints[lastPointId].right, this.controlPoints[0].left);
     this.state = "drawn";
   }
 
@@ -74,12 +93,19 @@ export class DrawingService {
     let p1 = this.points[0];
     for (let i = 1; i < this.points.length; i++) {
       let p2 = this.points[i];
-      this.canvasService.drawPart(p1, p2);
+      const cp1 = this.controlPoints[i - 1].right;
+      const cp2 = this.controlPoints[i].left;
+      this.canvasService.drawPart(p1, p2, cp1, cp2);
       p1 = p2;
     }
 
     if (this.state === 'drawn') {
-      this.canvasService.drawPart(this.points[this.points.length - 1], this.points[0]);
+      this.canvasService.drawPart(
+        this.points[this.points.length - 1],
+        this.points[0],
+        this.controlPoints[this.controlPoints.length - 1].right,
+        this.controlPoints[0].left
+      );
     }
   }
 }

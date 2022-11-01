@@ -25,11 +25,11 @@ export class CanvasService {
     this.context?.clearRect(0, 0, document.body.clientWidth, document.body.clientHeight);
   }
 
-  public drawPart(from: Point, to: Point): void {
+  public drawPart(from: Point, to: Point, cp1: Point, cp2: Point): void {
     if (this.context) {
       this.context.beginPath();
       this.context.moveTo(from.x, from.y);
-      this.context.bezierCurveTo(from.x, from.y, to.x, to.y, to.x, to.y);
+      this.context.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, to.x, to.y);
       this.context.stroke();
       this.context.closePath();
     }
