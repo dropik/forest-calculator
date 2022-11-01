@@ -52,7 +52,11 @@ export class DrawingService {
     this.controlPoints[lastPointId].right.x += dir.x;
     this.controlPoints[lastPointId].right.y += dir.y;
     this.controlPoints.push({ left: { x: point.x - dir.x, y: point.y - dir.y }, right: { x: point.x, y: point.y } });
-    this.canvasService.drawPart(lastPoint, point, this.controlPoints[lastPointId].right, this.controlPoints[lastPointId + 1].left);
+    const cp1 = this.controlPoints[lastPointId].right;
+    const cp2 = this.controlPoints[lastPointId + 1].left;
+    this.canvasService.drawPart(lastPoint, point, cp1, cp2);
+    this.canvasService.drawControlLine(lastPoint, cp1);
+    this.canvasService.drawControlLine(point, cp2);
   }
 
   private get points(): Point[] {
@@ -75,7 +79,11 @@ export class DrawingService {
     this.controlPoints[lastPointId].right.y += dir.y;
     this.controlPoints[0].left.x -= dir.x;
     this.controlPoints[0].left.y -= dir.y;
-    this.canvasService.drawPart(lastPoint, firstPoint, this.controlPoints[lastPointId].right, this.controlPoints[0].left);
+    const cp1 = this.controlPoints[lastPointId].right;
+    const cp2 = this.controlPoints[0].left;
+    this.canvasService.drawPart(lastPoint, firstPoint, cp1, cp2);
+    this.canvasService.drawControlLine(lastPoint, cp1);
+    this.canvasService.drawControlLine(firstPoint, cp2);
     this.state = "drawn";
   }
 
@@ -86,8 +94,15 @@ export class DrawingService {
   }
 
   public movePoint(id: number, newPoint: Point): void {
+    const prevPoint = this.points[id];
+    const dir: Point = { x: newPoint.x - prevPoint.x, y: newPoint.y - prevPoint.y };
     this.points[id].x = newPoint.x;
     this.points[id].y = newPoint.y;
+    const prevLeft = this.controlPoints[id].left;
+    const prevRight = this.controlPoints[id].right;
+    this.controlPoints[id].left = { x: prevLeft.x + dir.x, y: prevLeft.y + dir.y };
+    this.controlPoints[id].right = { x: prevRight.x + dir.x, y: prevRight.y + dir.y };
+
     this.canvasService.reset();
 
     let p1 = this.points[0];
@@ -96,16 +111,18 @@ export class DrawingService {
       const cp1 = this.controlPoints[i - 1].right;
       const cp2 = this.controlPoints[i].left;
       this.canvasService.drawPart(p1, p2, cp1, cp2);
+      this.canvasService.drawControlLine(p1, cp1);
+      this.canvasService.drawControlLine(p2, cp2);
       p1 = p2;
     }
 
     if (this.state === 'drawn') {
-      this.canvasService.drawPart(
-        this.points[this.points.length - 1],
-        this.points[0],
-        this.controlPoints[this.controlPoints.length - 1].right,
-        this.controlPoints[0].left
-      );
+      const p2 = this.points[0];
+      const cp1 = this.controlPoints[this.controlPoints.length - 1].right;
+      const cp2 = this.controlPoints[0].left;
+      this.canvasService.drawPart(p1, p2, cp1, cp2);
+      this.canvasService.drawControlLine(p1, cp1);
+      this.canvasService.drawControlLine(p2, cp2);
     }
   }
 }
