@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import { CanvasInitComponent } from './draw-field/canvas-init/canvas-init.compon
 import { TopAppBarComponent } from './top-app-bar/top-app-bar.component';
 import { DrawButtonComponent } from './draw-button/draw-button.component';
 import { ControlPointComponent } from './draw-field/control-point/control-point.component';
+import { CalculationsComponent } from './calculations/calculations.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { ControlPointComponent } from './draw-field/control-point/control-point.
     CanvasInitComponent,
     TopAppBarComponent,
     DrawButtonComponent,
-    ControlPointComponent
+    ControlPointComponent,
+    CalculationsComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,8 @@ import { ControlPointComponent } from './draw-field/control-point/control-point.
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
-    DragDropModule
+    DragDropModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
