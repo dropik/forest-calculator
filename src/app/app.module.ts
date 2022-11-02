@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCard, MatCardModule } from '@angular/material/card';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { TopAppBarComponent } from './top-app-bar/top-app-bar.component';
 import { DrawButtonComponent } from './draw-button/draw-button.component';
 import { ControlPointComponent } from './draw-field/control-point/control-point.component';
 import { CalculationsComponent } from './calculations/calculations.component';
+import { DialogComponent } from './calculations/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { CalculationsComponent } from './calculations/calculations.component';
     TopAppBarComponent,
     DrawButtonComponent,
     ControlPointComponent,
-    CalculationsComponent
+    CalculationsComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { CalculationsComponent } from './calculations/calculations.component';
     MatButtonModule,
     MatToolbarModule,
     DragDropModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
