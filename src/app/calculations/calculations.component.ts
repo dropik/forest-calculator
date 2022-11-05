@@ -4,8 +4,7 @@ import { DialogComponent } from './dialog/dialog.component';
 
 @Component({
   selector: 'app-calculations',
-  templateUrl: './calculations.component.html',
-  styleUrls: ['./calculations.component.scss']
+  templateUrl: './calculations.component.html'
 })
 export class CalculationsComponent implements OnChanges {
   @Input()

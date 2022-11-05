@@ -3,8 +3,7 @@ import { ControlPoints, Point, PointsService } from '../points.service';
 
 @Component({
   selector: 'app-draw-field',
-  templateUrl: './draw-field.component.html',
-  styleUrls: ['./draw-field.component.scss']
+  templateUrl: './draw-field.component.html'
 })
 export class DrawFieldComponent {
   constructor(private pointsService: PointsService) { }
